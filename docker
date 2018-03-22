@@ -1,0 +1,31 @@
+
+Question: Difference between docker COPY and ADD command.
+	https://www.ctl.io/developers/blog/post/dockerfile-add-vs-copy/
+
+ADD: (OLD Method)
+ 1) The ADD instruction allows you to use a URL as the <src> parameter. 
+	When a URL is provided, a file is downloaded from the URL and copied to the <dest>
+	ADD http://foo.com/bar.go /tmp/main.go
+	ADD http://foo.com/bar.go /tmp/
+	
+ 2) Another feature of ADD is the ability to automatically unpack compressed files
+	ADD /foo.tar.gz /tmp/
+ 	Problems with add: if we want to simply copy some tar fife but add will untar it inside the docker
+
+COPY(New Method):
+	1) No urls supported, that means no remote download of files
+	2) Anything that you want to COPY into the container must be present in the local build  context
+	3)  If you COPY an archive file it will land in the container exactly as it appears in the build context without any attempt to unpack it.
+
+Recommendation: use COPY 
+
+
+Question: How to check layers of image
+
+https://www.ctl.io/developers/blog/post/optimizing-docker-images/
+docker history <imagename>
+
+Question: Delete all unused docker layers:
+docker rmi $(docker images -f "dangling=true" -q)
+
+Question: CMD and CHECKPOINT difference:
