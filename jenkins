@@ -1,0 +1,12 @@
+Question: Jenkins node addition 4 checks it will do while adding slave node to master 
+
+1) Open a SSH connection to the specified host as the specified username.
+2) Checks the default version of java for that user.
+3) copies the latest slave.jar via SFTP (falling back to scp if SFTP is not available)
+4) Starts the slave process
+
+Question: Jenkins node Launch methods
+1) Java web start (JNLP)
+2) execution of command on master
+3) SSH
+4) Windows slave as a windows service
