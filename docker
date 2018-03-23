@@ -29,7 +29,7 @@ Question: Delete all unused docker layers:
 docker rmi $(docker images -f "dangling=true" -q)
 
 Question: CMD and CHECKPOINT difference:
-1) ENTRYPOINT and CMD 
+1) ENTRYPOINT and CMD (https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/)
    - allow you to specify the startup command for an image
    - give you a way to identify which executable should be run when a container is started from your image
    - identify the default executable for your image
