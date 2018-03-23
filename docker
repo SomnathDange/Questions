@@ -29,3 +29,52 @@ Question: Delete all unused docker layers:
 docker rmi $(docker images -f "dangling=true" -q)
 
 Question: CMD and CHECKPOINT difference:
+1) ENTRYPOINT and CMD 
+   - allow you to specify the startup command for an image
+   - give you a way to identify which executable should be run when a container is started from your image
+   - identify the default executable for your image
+   - we can override the default CMD by specifying an argument after the image name when starting the container
+
+    docker run demo hostname <Here hostname is the command which will override the default command/executable>
+    docker run --entrypoint hostname demo
+    Entrypoint is used when you don't want or expect the user to override the executable you've specified
+    ENTRYPOINT sends a strong message that this container is only intended to run this one command
+
+	
+SHELL and EXEC form:
+shell form: CMD executable param1 param2
+	$ docker exec 15bfcddb ps -f
+	UID PID PPID C STIME TTY TIME CMD
+	root 1 0 0 20:14 ? 00:00:00 /bin/sh -c ping localhost
+	root 9 1 0 20:14 ? 00:00:00 ping localhost
+	root 49 0 0 20:15 ? 00:00:00 ps -f
+
+exec form: CMD ["executable","param1","param2"]
+	content appearing after the CMD instruction in this case is formatted as a JSON array
+	When the exec form of the CMD instruction is used the command will be executed without a shell
+
+root@docker-m03:/home/devadm/tmp# docker exec c6a17d0e8ebd ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 04:45 ?        00:00:00 /bin/ping localhost
+root         5     0  0 04:45 ?        00:00:00 ps -f
+root@docker-m03:/home/devadm/tmp#
+
+ * recommendation is to always use the exec form
+
+Combining ENTRYPOINT and CMD allows you to specify the default executable for your image while also 
+providing default arguments to that executable which may be overridden by the user
+
+FROM ubuntu:trusty
+ENTRYPOINT ["/bin/ping","-c","3"]
+CMD ["localhost"]
+
+$ docker ps -l
+CONTAINER ID IMAGE COMMAND CREATED
+82df66a2a9f1 ping:latest "/bin/ping -c 3 localhost" 6 seconds ago
+
+Note that the command which was executed is a combination of the ENTRYPOINT and CMD values that were specified in the Dockerfile. 
+When both an ENTRYPOINT and CMD are specified, the CMD string(s) will be appended to the ENTRYPOINT 
+in order to generate the container's command string. Remember that the CMD value can be easily overridden 
+by supplying one or more arguments to `docker run` after the name of the image
+
+When using ENTRYPOINT and CMD together it's important that you always use the exec form of both instructions
