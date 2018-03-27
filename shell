@@ -1,0 +1,10 @@
+difference between [ ] and [[ ]] in shell script:
+1) [[ handles empty strings and strings with whitespace
+    [ with this we have to quote variable to work it
+2) if [[ $ANSWER = y* ]] => pattern matching
+3) It has a wonderful =~ operator for doing regular expression matches. With [ you might write
+
+if [ "$answer" = y -o "$answer" = yes ]
+With [[ you can write this as
+
+if [[ $answer =~ ^y(es)?$ ]]
