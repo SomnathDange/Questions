@@ -8,3 +8,10 @@ if [ "$answer" = y -o "$answer" = yes ]
 With [[ you can write this as
 
 if [[ $answer =~ ^y(es)?$ ]]
+
+
+rename all filenames to upper/lower case:
+for i in `ls`
+do
+    mv $i $(tr [:lower:] [:upper:] <<< $i)
+done
