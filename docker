@@ -78,3 +78,11 @@ in order to generate the container's command string. Remember that the CMD value
 by supplying one or more arguments to `docker run` after the name of the image
 
 When using ENTRYPOINT and CMD together it's important that you always use the exec form of both instructions
+
+## Execute docker container on particular host from swarm manager ##
+docker -H tcp://swarm_node:4000  run -it -e constraint:node==docker-host docker_image_name bash
+
+
+
+
+
