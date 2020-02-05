@@ -1,6 +1,7 @@
 
 Question: Difference between docker COPY and ADD command.
 	https://www.ctl.io/developers/blog/post/dockerfile-add-vs-copy/
+	https://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
 
 ADD: (OLD Method)
  1) The ADD instruction allows you to use a URL as the <src> parameter. 
